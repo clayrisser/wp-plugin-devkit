@@ -1,0 +1,12 @@
+{
+    "name": "jamrizzi/wp-plugin-devkit",
+    "description": "A WordPress plugin development kit",
+    "license": "GPLv3",
+    "authors": [
+        {
+            "name": "Jam Risser",
+            "email": "jam@jamrizzi.com"
+        }
+    ],
+    "require": {}
+}
