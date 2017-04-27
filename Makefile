@@ -7,7 +7,7 @@ all: fetch_dependancies
 .PHONY: start
 start:
 	docker run --name some-mariadb --rm -d -e MYSQL_ROOT_PASSWORD=hellodocker mariadb:latest
-	docker run --name some-wordpress --rm --link some-mariadb:mysql -p 8080:80 -v $(CWD)/$(PLUGIN_NAME):/var/www/html/wp-content/plugins/$(PLUGIN_NAME) wordpress:latest
+	docker run --name some-instant-wordpress --rm --link some-mariadb:mysql -p 8080:80 -v $(CWD)/$(PLUGIN_NAME):/var/www/html/wp-content/plugins/$(PLUGIN_NAME) jamrizzi/instant-wordpress:latest
 
 .PHONY: init
 init:
