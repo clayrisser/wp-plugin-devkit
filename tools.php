@@ -16,10 +16,17 @@ function init() {
   $author = read_ln("Plugin Author: ");
   write_ln("The plugin is called ".$name);
   write_ln("Your name is ".$author);
-  $files = recursively_get_files('./');
+  name_plugin($name);
+}
+
+function name_plugin($name) {
+  $files = recursively_get_files('./plugin-name');
   foreach($files as $path) {
     find_and_replace($path, 'plugin-name', $name);
   }
+  find_and_replace(getcwd()."/Makefile", 'plugin-name', $name);
+  find_and_replace(getcwd()."/composer.json", 'plugin-name', $name);
+  find_and_replace(getcwd()."/README.md", 'plugin-name', $name);
 }
 
 function recursively_get_files($path) {
