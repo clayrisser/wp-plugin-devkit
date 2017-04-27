@@ -20,13 +20,41 @@ function init() {
 }
 
 function name_plugin($name) {
-  $files = recursively_get_files('./plugin-name');
-  foreach($files as $path) {
-    find_and_replace($path, 'plugin-name', $name);
+  $new = changeCase($name, "snake");
+  write_ln($new);
+
+  // $test = preg_replace('/\s\w/i', '$1:$2', $name);
+  // var_dump($test);
+  // find_and_replace_all('plugin-name');
+  // find_and_replace_all('plugin_name');
+}
+
+function changeCase($str, $to, $from = "title") {
+  $str = trim(preg_replace('/[\s\t\n\r\s]+/', " ", $str));
+  if ($from == "title") {
+    switch($to) {
+    case "snake":
+      preg_match_all('/(?<=\s)\w/', $str, $firstChars);
+      preg_match_all('/\s\w/', $str, $matches);
+      for($i = 0; $i < count($matches[0]); $i++) {
+        $match = $matches[0][$i];
+        $firstChar = "_".strtolower($firstChars[0][$i]);
+        $str = str_replace($match, $firstChar, $str);
+      }
+      $str = lcfirst($str);
+      return $str;
+    }
   }
-  find_and_replace(getcwd()."/Makefile", 'plugin-name', $name);
-  find_and_replace(getcwd()."/composer.json", 'plugin-name', $name);
-  find_and_replace(getcwd()."/README.md", 'plugin-name', $name);
+}
+
+function find_and_replace_all($find, $replace) {
+  $files = recursively_get_files("./plugin-name");
+  foreach($files as $path) {
+    find_and_replace($path, $find, $replace);
+  }
+  find_and_replace(getcwd()."/Makefile", $find, $replace);
+  find_and_replace(getcwd()."/composer.json", $find, $replace);
+  find_and_replace(getcwd()."/README.md", $find, $replace);
 }
 
 function recursively_get_files($path) {
