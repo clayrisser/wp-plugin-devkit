@@ -14,7 +14,7 @@ database:
 
 .PHONY: init
 init:
-	php init.php
+	php tools.php init
 
 .PHONY: clean
 clean:
