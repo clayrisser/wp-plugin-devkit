@@ -18,7 +18,7 @@ function init() {
   write_ln("Your name is ".$author);
   $files = recursively_get_files('./');
   foreach($files as $path) {
-    find_and_replace($path, 'plugin-name', $name)
+    find_and_replace($path, 'plugin-name', $name);
   }
 }
 
@@ -37,7 +37,7 @@ function recursively_get_files($path) {
 
 function find_and_replace($path, $find, $replace) {
   $file = file_get_contents($path);
-  $file = str_replace($find, $replace, $contents);
+  $file = str_replace($find, $replace, $file);
   file_put_contents($path, $file);
 }
 
