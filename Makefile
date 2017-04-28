@@ -18,7 +18,7 @@ wordpress:
 
 .PHONY: database
 database:
-	docker run --name some-mariadb --rm -e MYSQL_ROOT_PASSWORD=hellodocker mariadb:latest
+	docker run --name some-mariadb --rm -e MYSQL_ROOT_PASSWORD=hellodocker -e MYSQL_DATABASE=wordpress -e MYSQL_USER=admin -e MYSQL_PASSWORD=hellowordpress mariadb:latest
 
 .PHONY: sql_client
 sql_client:
