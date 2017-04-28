@@ -33,9 +33,9 @@ function name_plugin($name) {
   // find_and_replace_all('Plugin-Name', $cap_kebab);
   // find_and_replace_all('Plugin Name', $cap_space);
   find_and_replace_files('plugin_name', $snake);
-  find_and_replace_files('plugin-name', $kebab);
-  find_and_replace_files('Plugin_Name', $cap_snake);
-  find_and_replace_files('Plugin-Name', $cap_kebab);
+  find_and_replace_files('plugin-name', $kebab, $kebab);
+  find_and_replace_files('Plugin_Name', $cap_snake, $kebab);
+  find_and_replace_files('Plugin-Name', $cap_kebab, $kebab);
 }
 
 function change_case($str, $to, $from = "title") {
@@ -88,8 +88,8 @@ function find_and_replace_all($find, $replace) {
   find_and_replace(getcwd()."/tools.php", $find, $replace);
 }
 
-function find_and_replace_files($find, $replace) {
-  $files = recursively_get_files("./plugin-name");
+function find_and_replace_files($find, $replace, $root = "plugin-name") {
+  $files = recursively_get_files("./".$root);
   foreach($files as $path) {
     if (strpos($path, $find)) {
       preg_match_all('/\/[\w\d-_\.]+$/', $path, $matches);
