@@ -39,12 +39,14 @@ function init() {
   find_and_replace_all("4.3", $stable);
   find_and_replace_all("jamrizzi", $contributors);
   find_and_replace_all("GPL-3.0+", $license);
-
   name_plugin($plugin_name);
 }
 
 function input($tag, $default) {
   $value = read_ln($tag." (".$default."): ");
+  if ($value === "exit") {
+    return exit(0);
+  }
   if (strlen($value) > 0) {
     return $value;
   } else {

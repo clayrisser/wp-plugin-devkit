@@ -14,7 +14,7 @@ database:
 
 .PHONY: init
 init:
-	php tools.php init
+	docker run --name some-php --rm -i -t -v $(CWD):/app/ -w /app/ php:7.0-cli bash -c "php tools.php init"
 
 .PHONY: clean
 clean:
