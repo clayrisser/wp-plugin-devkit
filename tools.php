@@ -43,7 +43,7 @@ function init() {
 }
 
 function input($tag, $default) {
-  $value = read_ln($tab." (".$default."): ");
+  $value = read_ln($tag." (".$default."): ");
   if (strlen($value) > 0) {
     return $value;
   } else {
