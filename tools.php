@@ -98,21 +98,32 @@ function find_and_replace_files($find, $replace) {
         $to_find = $matches[0][0];
         $to_replace = str_replace($find, $replace, $to_find);
         $new_path = str_replace($to_find, $to_replace, $path);
+        write_ln('******************************');
+        write_ln($path);
+        write_ln($new_path);
         rename($path, $new_path);
       }
     }
   }
-  foreach($dirs as $path) {
-    if (strpos($path, $find)) {
-      preg_match_all('/\/[\w\d-_\.]+$/', $path, $matches);
-      if (count($matches[0]) > 0) {
-        $to_find = $matches[0][0];
-        $to_replace = str_replace($find, $replace, $to_find);
-        $new_path = str_replace($to_find, $to_replace, $path);
-        rename($path, $new_path);
-      }
-    }
+  if (file_exists(getcwd()."/".$find)) {
+    write_ln(getcwd()."/".$find);
+    write_ln(getcwd()."/".$replace);
+    rename(getcwd()."/".$find, getcwd()."/".$replace);
   }
+  // foreach($dirs as $path) {
+  //   if (strpos($path, $find)) {
+  //     preg_match_all('/\/[\w\d-_\.]+$/', $path, $matches);
+  //     if (count($matches[0]) > 0) {
+  //       $to_find = $matches[0][0];
+  //       $to_replace = str_replace($find, $replace, $to_find);
+  //       $new_path = str_replace($to_find, $to_replace, $path);
+  //       write_ln('----------------------------');
+  //       write_ln($path);
+  //       write_ln($new_path);
+  //       // rename($path, $new_path);
+  //     }
+  //   }
+  // }
 }
 
 function recursively_get_files($path) {
