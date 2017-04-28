@@ -1,12 +1,15 @@
 {
-    "name": "jamrizzi/plugin-devkit",
-    "description": "A WordPress plugin development kit",
-    "license": "GPLv3",
-    "authors": [
-        {
-            "name": "Jam Risser",
-            "email": "jam@jamrizzi.com"
-        }
-    ],
-    "require": {}
+  "name": "jamrizzi/plugin-devkit",
+  "description": "A WordPress plugin development kit",
+  "license": "GPLv3",
+  "authors": [
+    {
+      "name": "Jam Risser",
+      "email": "jam@jamrizzi.com"
+    }
+  ],
+  "require": {},
+  "config": {
+    "vendor-dir": "plugin-devkit/vendor"
+  }
 }

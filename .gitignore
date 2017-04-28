@@ -44,6 +44,6 @@ cache
 *~
 
 # Composer
-plugin-name/composer.phar
-plugin-name/composer.lock
-plugin-name/vendor/
+plugin-devkit/composer.phar
+plugin-devkit/composer.lock
+plugin-devkit/vendor/
