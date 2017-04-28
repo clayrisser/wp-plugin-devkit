@@ -20,16 +20,13 @@ function init() {
 }
 
 function name_plugin($name) {
-  $new = changeCase($name, "snake");
-  write_ln($new);
-
-  // $test = preg_replace('/\s\w/i', '$1:$2', $name);
-  // var_dump($test);
-  // find_and_replace_all('plugin-name');
-  // find_and_replace_all('plugin_name');
+  $snake = change_case($name, "snake");
+  $kebab = change_case($name, "kebab");
+  find_and_replace_all('plugin_name', $snake);
+  find_and_replace_all('plugin-name', $kebab);
 }
 
-function changeCase($str, $to, $from = "title") {
+function change_case($str, $to, $from = "title") {
   $str = trim(preg_replace('/[\s\t\n\r\s]+/', " ", $str));
   if ($from == "title") {
     switch($to) {
@@ -42,9 +39,14 @@ function changeCase($str, $to, $from = "title") {
         $str = str_replace($match, $firstChar, $str);
       }
       $str = lcfirst($str);
-      return $str;
+      break;
+    case "kebab":
+      $str = change_case($str, "snake");
+      $str = str_replace("_", "-", $str);
+      break;
     }
   }
+  return $str;
 }
 
 function find_and_replace_all($find, $replace) {
