@@ -12,11 +12,34 @@ function main($argv) {
 }
 
 function init() {
-  $name = read_ln("Name of Plugin: ");
-  $author = read_ln("Author of Plugin: ");
-  write_ln("The plugin is called ".$name);
-  write_ln("Your name is ".$author);
-  name_plugin($name);
+  $plugin_name = read_ln("Plugin Name (Plugin Devkit): ");
+  $author = read_ln("Plugin Author (Jam Risser): ");
+  $contributors = read_ln("Contributors (jamrizzi): ");
+  $tags = read_ln("Tags (comments, spam): ");
+  $description = read_ln("Description (This is a short description of what the plugin does. It's displayed in the WordPress admin area.): ");
+  $version = read_ln("Version (0.0.1): ");
+  $requires = read_ln("Requires (3.0.1): ");
+  $tested = read_ln("Tested (3.4): ");
+  $stable = read_ln("Stable (4.3): ");
+  $license = read_ln("License (GPL-3.0+): ");
+  $plugin_uri = read_ln("Plugin URI (https://wordpress.org/plugins/plugin-devkit/): ");
+  $author_uri = read_ln("Author URI (https://jamrizzi.com/): ");
+  $license_uri = read_ln("License URI (http://www.gnu.org/licenses/gpl-3.0.html): ");
+  $donate_link = read_ln("Donate link (https://jamrizzi.com/#!/buy-me-coffee): ");
+  name_plugin($plugin_name);
+  find_and_replace_all("Jam Risser", $author);
+  find_and_replace_all("jamrizzi", $contributors);
+  find_and_replace_all("comments, spam", $tags);
+  find_and_replace_all("This is a short description of what the plugin does. It's displayed in the WordPress admin area.", $description);
+  find_and_replace_all("0.0.1", $version);
+  find_and_replace_all("3.0.1", $requires);
+  find_and_replace_all("3.4", $tested);
+  find_and_replace_all("4.3", $stable);
+  find_and_replace_all("GPL-3.0+", $license);
+  find_and_replace_all("https://wordpress.org/plugins/plugin-devkit/", $plugin_uri);
+  find_and_replace_all("https://jamrizzi.com/", $author_uri);
+  find_and_replace_all("http://www.gnu.org/licenses/gpl-3.0.html", $license_uri);
+  find_and_replace_all("https://jamrizzi.com/#!/buy-me-coffee", $donate_link);
 }
 
 function name_plugin($name) {

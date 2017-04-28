@@ -8,19 +8,19 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              http://example.com
- * @since             1.0.0
+ * @link              https://jamrizzi.com/
+ * @since             0.0.1
  * @package           Plugin_Devkit
  *
  * @wordpress-plugin
- * Plugin Devkit:       WordPress Plugin Boilerplate
- * Plugin URI:        http://example.com/plugin-devkit-uri/
+ * Plugin Name:       Plugin Devkit
+ * Plugin URI:        https://wordpress.org/plugins/plugin-devkit/
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
- * Version:           1.0.0
- * Author:            Your Name or Your Company
- * Author URI:        http://example.com/
- * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * Version:           0.0.1
+ * Author:            Jam Risser
+ * Author URI:        https://jamrizzi.com/
+ * License:           GPL-3.0+
+ * License URI:       http://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain:       plugin-devkit
  * Domain Path:       /languages
  */
