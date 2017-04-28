@@ -26,7 +26,6 @@ function init() {
   $author_uri = input("Author URI", "https://jamrizzi.com/");
   $license_uri = input("License URI", "http://www.gnu.org/licenses/gpl-3.0.html");
   $donate_link = input("Donate Link", "https://jamrizzi.com/#!/buy-me-coffee");
-  name_plugin($plugin_name);
   find_and_replace_all("Jam Risser", $author);
   find_and_replace_all("jamrizzi", $contributors);
   find_and_replace_all("comments, spam", $tags);
@@ -40,6 +39,7 @@ function init() {
   find_and_replace_all("https://jamrizzi.com/", $author_uri);
   find_and_replace_all("http://www.gnu.org/licenses/gpl-3.0.html", $license_uri);
   find_and_replace_all("https://jamrizzi.com/#!/buy-me-coffee", $donate_link);
+  name_plugin($plugin_name);
 }
 
 function input($tag, $default) {
