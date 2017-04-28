@@ -23,6 +23,10 @@ clean:
 	docker stop some-mariadb &
 	$(info cleaned)
 
+.PHONY: ssh
+ssh:
+	dockssh -e some-instant-wordpress
+
 .PHONY: fetch_dependancies
 fetch_dependancies: docker
 	$(info fetched dependancies)

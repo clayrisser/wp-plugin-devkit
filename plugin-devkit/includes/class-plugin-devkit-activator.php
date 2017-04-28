@@ -4,7 +4,7 @@
  * Fired during plugin activation
  *
  * @link       http://example.com
- * @since      1.0.0
+ * @since      0.0.1
  *
  * @package    Plugin_Devkit
  * @subpackage Plugin_Devkit/includes
@@ -15,7 +15,7 @@
  *
  * This class defines all code necessary to run during the plugin's activation.
  *
- * @since      1.0.0
+ * @since      0.0.1
  * @package    Plugin_Devkit
  * @subpackage Plugin_Devkit/includes
  * @author     Your Name <email@example.com>
@@ -27,7 +27,7 @@ class Plugin_Devkit_Activator {
 	 *
 	 * Long Description.
 	 *
-	 * @since    1.0.0
+	 * @since    0.0.1
 	 */
 	public static function activate() {
 

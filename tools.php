@@ -3,48 +3,48 @@
 function main($argv) {
   $command = $argv[count($argv) - 1];
   switch($command) {
-  case "init":
+  case 'init':
     init();
     break;
   default:
-    write_ln("Invalid command", 1);
+    write_ln('Invalid command', 1);
   }
 }
 
 function init() {
-  $plugin_name = input("Plugin Name", "Plugin Devkit");
-  $author = input("Plugin Author", "Jam Risser");
-  $contributors = input("Contributors", "jamrizzi");
-  $tags = input("Tags", "comments, spam");
-  $description = input("Description", "This is a short description of what the plugin does. It's displayed in the WordPress admin area.");
-  $version = input("Version", "0.0.1");
-  $requires = input("Requires", "3.0.1");
-  $tested = input("Tested", "3.4");
-  $stable = input("Stable", "4.3");
-  $license = input("License", "GPL-3.0+");
-  $plugin_uri = input("Plugin URI", "https://wordpress.org/plugins/plugin-devkit/");
-  $author_uri = input("Author URI", "https://jamrizzi.com/");
-  $license_uri = input("License URI", "http://www.gnu.org/licenses/gpl-3.0.html");
-  $donate_link = input("Donate Link", "https://jamrizzi.com/#!/buy-me-coffee");
-  find_and_replace_all("http://www.gnu.org/licenses/gpl-3.0.html", $license_uri);
-  find_and_replace_all("https://wordpress.org/plugins/plugin-devkit/", $plugin_uri);
-  find_and_replace_all("https://jamrizzi.com/#!/buy-me-coffee", $donate_link);
-  find_and_replace_all("https://jamrizzi.com/", $author_uri);
-  find_and_replace_all("Jam Risser", $author);
-  find_and_replace_all("comments, spam", $tags);
-  find_and_replace_all("This is a short description of what the plugin does. It's displayed in the WordPress admin area.", $description);
-  find_and_replace_all("0.0.1", $version);
-  find_and_replace_all("3.0.1", $requires);
-  find_and_replace_all("3.4", $tested);
-  find_and_replace_all("4.3", $stable);
-  find_and_replace_all("jamrizzi", $contributors);
-  find_and_replace_all("GPL-3.0+", $license);
+  $plugin_name = input('Plugin Name', 'Plugin Devkit');
+  $author = input('Plugin Author', 'Jam Risser');
+  $contributors = input('Contributors', 'jamrizzi');
+  $tags = input('Tags', 'comments, spam');
+  $description = input('Description', 'This is a short description of what the plugin does. It's displayed in the WordPress admin area.');
+  $version = input('Version', '0.0.1');
+  $requires = input('Requires', '3.0.1');
+  $tested = input('Tested', '3.4');
+  $stable = input('Stable', '4.3');
+  $license = input('License', 'GPL-3.0+');
+  $plugin_uri = input('Plugin URI', 'https://wordpress.org/plugins/plugin-devkit/');
+  $author_uri = input('Author URI', 'https://jamrizzi.com/');
+  $license_uri = input('License URI', 'http://www.gnu.org/licenses/gpl-3.0.html');
+  $donate_link = input('Donate Link', 'https://jamrizzi.com/#!/buy-me-coffee');
+  find_and_replace_all('http://www.gnu.org/licenses/gpl-3.0.html', $license_uri);
+  find_and_replace_all('https://wordpress.org/plugins/plugin-devkit/', $plugin_uri);
+  find_and_replace_all('https://jamrizzi.com/#!/buy-me-coffee', $donate_link);
+  find_and_replace_all('https://jamrizzi.com/', $author_uri);
+  find_and_replace_all('Jam Risser', $author);
+  find_and_replace_all('comments, spam', $tags);
+  find_and_replace_all('This is a short description of what the plugin does. It\'s displayed in the WordPress admin area.', $description);
+  find_and_replace_all('0.0.1', $version);
+  find_and_replace_all('3.0.1', $requires);
+  find_and_replace_all('3.4', $tested);
+  find_and_replace_all('4.3', $stable);
+  find_and_replace_all('jamrizzi', $contributors);
+  find_and_replace_all('GPL-3.0+', $license);
   name_plugin($plugin_name);
 }
 
 function input($tag, $default) {
-  $value = read_ln($tag." (".$default."): ");
-  if ($value === "exit") {
+  $value = read_ln($tag.' ('.$default.'): ');
+  if ($value === 'exit') {
     return exit(0);
   }
   if (strlen($value) > 0) {
@@ -55,12 +55,12 @@ function input($tag, $default) {
 }
 
 function name_plugin($name) {
-  $snake = change_case($name, "snake");
-  $kebab = change_case($name, "kebab");
-  $space = change_case($name, "space");
-  $cap_snake = change_case($name, "cap_snake");
-  $cap_kebab = change_case($name, "cap_kebab");
-  $cap_space = change_case($name, "cap_space");
+  $snake = change_case($name, 'snake');
+  $kebab = change_case($name, 'kebab');
+  $space = change_case($name, 'space');
+  $cap_snake = change_case($name, 'cap_snake');
+  $cap_kebab = change_case($name, 'cap_kebab');
+  $cap_space = change_case($name, 'cap_space');
   find_and_replace_all('plugin_devkit', $snake);
   find_and_replace_all('plugin-devkit', $kebab);
   find_and_replace_all('plugin devkit', $space);
@@ -73,38 +73,38 @@ function name_plugin($name) {
   find_and_replace_files('Plugin-Devkit', $cap_kebab, $kebab);
 }
 
-function change_case($str, $to, $from = "title") {
-  $str = trim(preg_replace('/[\s\t\n\r\s]+/', " ", $str));
-  if ($from == "title") {
+function change_case($str, $to, $from = 'title') {
+  $str = trim(preg_replace('/[\s\t\n\r\s]+/', ' ', $str));
+  if ($from == 'title') {
     switch($to) {
-    case "snake":
+    case 'snake':
       preg_match_all('/(?<=\s)\w/', $str, $firstChars);
       preg_match_all('/\s\w/', $str, $matches);
       for($i = 0; $i < count($matches[0]); $i++) {
         $match = $matches[0][$i];
-        $firstChar = "_".strtolower($firstChars[0][$i]);
+        $firstChar = '_'.strtolower($firstChars[0][$i]);
         $str = str_replace($match, $firstChar, $str);
       }
       $str = strtolower($str);
       break;
-    case "kebab":
-      $str = change_case($str, "snake");
-      $str = str_replace("_", "-", $str);
+    case 'kebab':
+      $str = change_case($str, 'snake');
+      $str = str_replace('_', '-', $str);
       break;
-    case "space":
-      $str = change_case($str, "snake");
-      $str = str_replace("_", " ", $str);
+    case 'space':
+      $str = change_case($str, 'snake');
+      $str = str_replace('_', ' ', $str);
       break;
-    case "cap_snake":
-      $str = change_case($str, "cap_space");
-      $str = str_replace(" ", "_", $str);
+    case 'cap_snake':
+      $str = change_case($str, 'cap_space');
+      $str = str_replace(' ', '_', $str);
       break;
-    case "cap_kebab":
-      $str = change_case($str, "cap_space");
-      $str = str_replace(" ", "-", $str);
+    case 'cap_kebab':
+      $str = change_case($str, 'cap_space');
+      $str = str_replace(' ', '-', $str);
       break;
-    case "cap_space":
-      $str = change_case($str, "space");
+    case 'cap_space':
+      $str = change_case($str, 'space');
       $str = ucwords($str);
       break;
     }
@@ -113,18 +113,18 @@ function change_case($str, $to, $from = "title") {
 }
 
 function find_and_replace_all($find, $replace) {
-  $files = recursively_get_files("./plugin-devkit");
+  $files = recursively_get_files('./plugin-devkit');
   foreach($files as $path) {
     find_and_replace($path, $find, $replace);
   }
-  find_and_replace(getcwd()."/Makefile", $find, $replace);
-  find_and_replace(getcwd()."/composer.json", $find, $replace);
-  find_and_replace(getcwd()."/README.md", $find, $replace);
-  find_and_replace(getcwd()."/tools.php", $find, $replace);
+  find_and_replace(getcwd().'/Makefile', $find, $replace);
+  find_and_replace(getcwd().'/composer.json', $find, $replace);
+  find_and_replace(getcwd().'/README.md', $find, $replace);
+  find_and_replace(getcwd().'/tools.php', $find, $replace);
 }
 
-function find_and_replace_files($find, $replace, $root = "plugin-devkit") {
-  $files = recursively_get_files("./".$root);
+function find_and_replace_files($find, $replace, $root = 'plugin-devkit') {
+  $files = recursively_get_files('./'.$root);
   foreach($files as $path) {
     if (strpos($path, $find)) {
       preg_match_all('/\/[\w\d-_\.]+$/', $path, $matches);
@@ -136,8 +136,8 @@ function find_and_replace_files($find, $replace, $root = "plugin-devkit") {
       }
     }
   }
-  if (file_exists(getcwd()."/".$find)) {
-    rename(getcwd()."/".$find, getcwd()."/".$replace);
+  if (file_exists(getcwd().'/'.$find)) {
+    rename(getcwd().'/'.$find, getcwd().'/'.$replace);
   }
 }
 
