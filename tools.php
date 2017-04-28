@@ -66,7 +66,7 @@ function change_case($str, $to, $from = "title") {
       break;
     case "cap_space":
       $str = change_case($str, "space");
-      $str = strtoupper($str);
+      $str = ucwords($str);
       break;
     }
   }
