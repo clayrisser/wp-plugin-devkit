@@ -22,8 +22,16 @@ function init() {
 function name_plugin($name) {
   $snake = change_case($name, "snake");
   $kebab = change_case($name, "kebab");
+  $space = change_case($name, "space");
+  $cap_snake = change_case($name, "cap_snake");
+  $cap_kebab = change_case($name, "cap_kebab");
+  $cap_space = change_case($name, "cap_space");
   find_and_replace_all('plugin_name', $snake);
   find_and_replace_all('plugin-name', $kebab);
+  find_and_replace_all('plugin name', $space);
+  find_and_replace_all('Plugin_Name', $cap_snake);
+  find_and_replace_all('Plugin-Name', $cap_kebab);
+  find_and_replace_all('Plugin Name', $cap_space);
 }
 
 function change_case($str, $to, $from = "title") {
@@ -43,6 +51,22 @@ function change_case($str, $to, $from = "title") {
     case "kebab":
       $str = change_case($str, "snake");
       $str = str_replace("_", "-", $str);
+      break;
+    case "space":
+      $str = change_case($str, "snake");
+      $str = str_replace("_", " ", $str);
+      break;
+    case "capSnake":
+      $str = change_case($str, "cap_space");
+      $str = str_replace(" ", "_", $str);
+      break;
+    case "capKebab":
+      $str = change_case($str, "cap_space");
+      $str = str_replace(" ", "-", $str);
+      break;
+    case "capSpace":
+      $str = change_case($str, "space");
+      $str = strtoupper($str);
       break;
     }
   }
