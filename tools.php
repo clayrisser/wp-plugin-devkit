@@ -56,15 +56,15 @@ function change_case($str, $to, $from = "title") {
       $str = change_case($str, "snake");
       $str = str_replace("_", " ", $str);
       break;
-    case "capSnake":
+    case "cap_snake":
       $str = change_case($str, "cap_space");
       $str = str_replace(" ", "_", $str);
       break;
-    case "capKebab":
+    case "cap_kebab":
       $str = change_case($str, "cap_space");
       $str = str_replace(" ", "-", $str);
       break;
-    case "capSpace":
+    case "cap_space":
       $str = change_case($str, "space");
       $str = strtoupper($str);
       break;
