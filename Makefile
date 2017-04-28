@@ -10,11 +10,11 @@ start:
 
 .PHONY: database
 database:
-	docker run --name some-mariadb --rm -d -e MYSQL_ROOT_PASSWORD=hellodocker mariadb:latest
+	docker run --name some-mariadb --rm -e MYSQL_ROOT_PASSWORD=hellodocker mariadb:latest
 
 .PHONY: init
 init:
-	docker run --name some-php --rm -i -t -v $(CWD):/app/ -w /app/ php:7.0-cli bash -c "php tools.php init"
+	docker run --name some-php --rm -it -v $(CWD):/app/ -w /app/ php:7.0-cli bash -c "php tools.php init"
 
 .PHONY: clean
 clean:
