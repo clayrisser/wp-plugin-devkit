@@ -16,7 +16,7 @@ function init() {
   $author = input('Plugin Author', 'Jam Risser');
   $contributors = input('Contributors', 'jamrizzi');
   $tags = input('Tags', 'comments, spam');
-  $description = input('Description', 'This is a short description of what the plugin does. It's displayed in the WordPress admin area.');
+  $description = input('Description', 'This is a short description of what the plugin does. It\'s displayed in the WordPress admin area.');
   $version = input('Version', '0.0.1');
   $requires = input('Requires', '3.0.1');
   $tested = input('Tested', '3.4');
