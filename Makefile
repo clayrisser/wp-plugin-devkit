@@ -14,7 +14,7 @@ start:
 
 .PHONY: wordpress
 wordpress:
-	docker run --name some-instant-wordpress --rm --link some-mariadb:mysql -p 8888:80 -v $(CWD)/$(PLUGIN_NAME):/var/www/html/wp-content/plugins/$(PLUGIN_NAME) jamrizzi/instant-wordpress:latest
+	docker run --name some-instant-wordpress --rm --link some-mariadb:mysql -p 8888:80 -e DEBUG=true -v $(CWD)/$(PLUGIN_NAME):/var/www/html/wp-content/plugins/$(PLUGIN_NAME) jamrizzi/instant-wordpress:latest
 
 .PHONY: database
 database:
