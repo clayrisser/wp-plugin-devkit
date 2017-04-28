@@ -26,16 +26,16 @@ function name_plugin($name) {
   $cap_snake = change_case($name, "cap_snake");
   $cap_kebab = change_case($name, "cap_kebab");
   $cap_space = change_case($name, "cap_space");
-  find_and_replace_all('plugin_name', $snake);
-  find_and_replace_all('plugin-name', $kebab);
-  find_and_replace_all('plugin name', $space);
-  find_and_replace_all('Plugin_Name', $cap_snake);
-  find_and_replace_all('Plugin-Name', $cap_kebab);
-  find_and_replace_all('Plugin Name', $cap_space);
-  find_and_replace_files('plugin_name', $snake);
-  find_and_replace_files('plugin-name', $kebab);
-  find_and_replace_files('Plugin_Name', $cap_snake, $kebab);
-  find_and_replace_files('Plugin-Name', $cap_kebab, $kebab);
+  find_and_replace_all('plugin_devkit', $snake);
+  find_and_replace_all('plugin-devkit', $kebab);
+  find_and_replace_all('plugin devkit', $space);
+  find_and_replace_all('Plugin_Devkit', $cap_snake);
+  find_and_replace_all('Plugin-Devkit', $cap_kebab);
+  find_and_replace_all('Plugin Devkit', $cap_space);
+  find_and_replace_files('plugin_devkit', $snake);
+  find_and_replace_files('plugin-devkit', $kebab);
+  find_and_replace_files('Plugin_Devkit', $cap_snake, $kebab);
+  find_and_replace_files('Plugin-Devkit', $cap_kebab, $kebab);
 }
 
 function change_case($str, $to, $from = "title") {
@@ -78,7 +78,7 @@ function change_case($str, $to, $from = "title") {
 }
 
 function find_and_replace_all($find, $replace) {
-  $files = recursively_get_files("./plugin-name");
+  $files = recursively_get_files("./plugin-devkit");
   foreach($files as $path) {
     find_and_replace($path, $find, $replace);
   }
@@ -88,7 +88,7 @@ function find_and_replace_all($find, $replace) {
   find_and_replace(getcwd()."/tools.php", $find, $replace);
 }
 
-function find_and_replace_files($find, $replace, $root = "plugin-name") {
+function find_and_replace_files($find, $replace, $root = "plugin-devkit") {
   $files = recursively_get_files("./".$root);
   foreach($files as $path) {
     if (strpos($path, $find)) {
