@@ -7,7 +7,7 @@ all: clean fetch_dependancies
 
 .PHONY: start
 start:
-	docker run --name some-instant-wordpress --rm --link some-mariadb:mysql -p 8080:80 -v $(CWD)/$(PLUGIN_NAME):/var/www/html/wp-content/plugins/$(PLUGIN_NAME) jamrizzi/instant-wordpress:latest
+	docker run --name some-instant-wordpress --rm --link some-mariadb:mysql -p 8888:8888 -v $(CWD)/$(PLUGIN_NAME):/var/www/html/wp-content/plugins/$(PLUGIN_NAME) jamrizzi/instant-wordpress:latest
 
 .PHONY: database
 database:
