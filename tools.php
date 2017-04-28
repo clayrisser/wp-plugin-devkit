@@ -92,9 +92,17 @@ function find_and_replace_files($find, $replace) {
   $files = recursively_get_files("./plugin-name");
   foreach($files as $path) {
     if (strpos($path, $find)) {
-      rename($path, str_replace($find, $replace, $path));
+      rename($path, stringlreplace($find, $replace, $path));
     }
   }
+}
+
+function stringlreplace($find, $replace, $str) {
+  $pos = strrpos($str, $find);
+  if ($pos !== false) {
+    $str = substr_replace($str, $replace, $pos, strlen($find));
+  }
+  return $str;
 }
 
 function recursively_get_files($path) {
