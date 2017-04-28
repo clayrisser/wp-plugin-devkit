@@ -7,21 +7,33 @@ all: clean fetch_dependancies
 
 .PHONY: start
 start:
+	make database &
+	sleep 5
+	make wordpress &
+	make sql_client &
+
+.PHONY: wordpress
+wordpress:
 	docker run --name some-instant-wordpress --rm --link some-mariadb:mysql -p 8888:80 -v $(CWD)/$(PLUGIN_NAME):/var/www/html/wp-content/plugins/$(PLUGIN_NAME) jamrizzi/instant-wordpress:latest
 
 .PHONY: database
 database:
 	docker run --name some-mariadb --rm -e MYSQL_ROOT_PASSWORD=hellodocker mariadb:latest
 
+.PHONY: sql_client
+sql_client:
+	docker run --name some-phpmyadmin --rm --link some-mariadb:db -p 8889:80 phpmyadmin/phpmyadmin:latest
+
 .PHONY: init
 init:
 	docker run --name some-php --rm -it -v $(CWD):/app/ -w /app/ php:7.0-cli bash -c "php tools.php init"
 
-.PHONY: clean
-clean:
+.PHONY: stop
+stop:
 	docker stop some-instant-wordpress &
 	docker stop some-mariadb &
-	$(info cleaned)
+	docker stop some-phpmyadmin &
+	$(info stopped)
 
 .PHONY: ssh
 ssh:
