@@ -1,5 +1,5 @@
 CWD := $(shell readlink -en $(dir $(word $(words $(MAKEFILE_LIST)),$(MAKEFILE_LIST))))
-PLUGIN_NAME := something-spec
+PLUGIN_NAME := plugin-name
 
 .PHONY: all
 all: clean fetch_dependancies
