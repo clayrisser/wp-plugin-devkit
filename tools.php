@@ -81,6 +81,7 @@ function find_and_replace_all($find, $replace) {
   find_and_replace(getcwd()."/Makefile", $find, $replace);
   find_and_replace(getcwd()."/composer.json", $find, $replace);
   find_and_replace(getcwd()."/README.md", $find, $replace);
+  find_and_replace(getcwd()."/tools.php", $find, $replace);
 }
 
 function recursively_get_files($path) {
