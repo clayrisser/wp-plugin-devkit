@@ -1,5 +1,6 @@
 CWD := $(shell readlink -en $(dir $(word $(words $(MAKEFILE_LIST)),$(MAKEFILE_LIST))))
 PLUGIN_NAME := plugin-devkit
+SHELL := /bin/bash
 
 .PHONY: all
 all: clean fetch_dependancies
@@ -18,6 +19,8 @@ init:
 
 .PHONY: clean
 clean:
+	docker stop some-instant-wordpress &
+	docker stop some-mariadb &
 	$(info cleaned)
 
 .PHONY: fetch_dependancies
