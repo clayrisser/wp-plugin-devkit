@@ -77,6 +77,9 @@ function find_and_replace_all($find, $replace) {
   $files = recursively_get_files("./plugin-name");
   foreach($files as $path) {
     find_and_replace($path, $find, $replace);
+    if (strpos($path, $find)) {
+      rename($path, str_replace($find, $replace, $path));
+    }
   }
   find_and_replace(getcwd()."/Makefile", $find, $replace);
   find_and_replace(getcwd()."/composer.json", $find, $replace);
