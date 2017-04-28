@@ -26,12 +26,12 @@ function name_plugin($name) {
   $cap_snake = change_case($name, "cap_snake");
   $cap_kebab = change_case($name, "cap_kebab");
   $cap_space = change_case($name, "cap_space");
-  find_and_replace_all('plugin_name', $snake);
-  find_and_replace_all('plugin-name', $kebab);
-  find_and_replace_all('plugin name', $space);
-  find_and_replace_all('Plugin_Name', $cap_snake);
-  find_and_replace_all('Plugin-Name', $cap_kebab);
-  find_and_replace_all('Plugin Name', $cap_space);
+  // find_and_replace_all('plugin_name', $snake);
+  // find_and_replace_all('plugin-name', $kebab);
+  // find_and_replace_all('plugin name', $space);
+  // find_and_replace_all('Plugin_Name', $cap_snake);
+  // find_and_replace_all('Plugin-Name', $cap_kebab);
+  // find_and_replace_all('Plugin Name', $cap_space);
   find_and_replace_files('plugin_name', $snake);
   find_and_replace_files('plugin-name', $kebab);
   find_and_replace_files('Plugin_Name', $cap_snake);
@@ -90,19 +90,29 @@ function find_and_replace_all($find, $replace) {
 
 function find_and_replace_files($find, $replace) {
   $files = recursively_get_files("./plugin-name");
+  $dirs = recursively_get_dirs("./plugin-name");
   foreach($files as $path) {
     if (strpos($path, $find)) {
-      rename($path, stringlreplace($find, $replace, $path));
+      preg_match_all('/\/[\w\d-_\.]+$/', $path, $matches);
+      if (count($matches[0]) > 0) {
+        $to_find = $matches[0][0];
+        $to_replace = str_replace($find, $replace, $to_find);
+        $new_path = str_replace($to_find, $to_replace, $path);
+        rename($path, $new_path);
+      }
     }
   }
-}
-
-function stringlreplace($find, $replace, $str) {
-  $pos = strrpos($str, $find);
-  if ($pos !== false) {
-    $str = substr_replace($str, $replace, $pos, strlen($find));
+  foreach($dirs as $path) {
+    if (strpos($path, $find)) {
+      preg_match_all('/\/[\w\d-_\.]+$/', $path, $matches);
+      if (count($matches[0]) > 0) {
+        $to_find = $matches[0][0];
+        $to_replace = str_replace($find, $replace, $to_find);
+        $new_path = str_replace($to_find, $to_replace, $path);
+        rename($path, $new_path);
+      }
+    }
   }
-  return $str;
 }
 
 function recursively_get_files($path) {
@@ -116,6 +126,19 @@ function recursively_get_files($path) {
     }
   }
   return $files;
+}
+
+function recursively_get_dirs($path) {
+  $directory_iterator = new RecursiveDirectoryIterator($path);
+  $iterator_iterator  = new RecursiveIteratorIterator($directory_iterator, RecursiveIteratorIterator::SELF_FIRST);
+  $dirs = array();
+  foreach ($iterator_iterator as $dir) {
+    $path = $dir->getRealPath();
+    if ($dir->isDir()) {
+      array_push($dirs, $dir);
+    }
+  }
+  return $dirs;
 }
 
 function find_and_replace($path, $find, $replace) {
