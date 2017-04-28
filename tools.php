@@ -50,7 +50,7 @@ function change_case($str, $to, $from = "title") {
         $firstChar = "_".strtolower($firstChars[0][$i]);
         $str = str_replace($match, $firstChar, $str);
       }
-      $str = lcfirst($str);
+      $str = strtolower($str);
       break;
     case "kebab":
       $str = change_case($str, "snake");
