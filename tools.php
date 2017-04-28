@@ -12,20 +12,20 @@ function main($argv) {
 }
 
 function init() {
-  $plugin_name = read_ln("Plugin Name (Plugin Devkit): ");
-  $author = read_ln("Plugin Author (Jam Risser): ");
-  $contributors = read_ln("Contributors (jamrizzi): ");
-  $tags = read_ln("Tags (comments, spam): ");
-  $description = read_ln("Description (This is a short description of what the plugin does. It's displayed in the WordPress admin area.): ");
-  $version = read_ln("Version (0.0.1): ");
-  $requires = read_ln("Requires (3.0.1): ");
-  $tested = read_ln("Tested (3.4): ");
-  $stable = read_ln("Stable (4.3): ");
-  $license = read_ln("License (GPL-3.0+): ");
-  $plugin_uri = read_ln("Plugin URI (https://wordpress.org/plugins/plugin-devkit/): ");
-  $author_uri = read_ln("Author URI (https://jamrizzi.com/): ");
-  $license_uri = read_ln("License URI (http://www.gnu.org/licenses/gpl-3.0.html): ");
-  $donate_link = read_ln("Donate link (https://jamrizzi.com/#!/buy-me-coffee): ");
+  $plugin_name = input("Plugin Name", "Plugin Devkit");
+  $author = input("Plugin Author", "Jam Risser");
+  $contributors = input("Contributors", "jamrizzi");
+  $tags = input("Tags", "comments, spam");
+  $description = input("Description", "This is a short description of what the plugin does. It's displayed in the WordPress admin area.");
+  $version = input("Version", "0.0.1");
+  $requires = input("Requires", "3.0.1");
+  $tested = input("Tested", "3.4");
+  $stable = input("Stable", "4.3");
+  $license = input("License", "GPL-3.0+");
+  $plugin_uri = input("Plugin URI", "https://wordpress.org/plugins/plugin-devkit/");
+  $author_uri = input("Author URI", "https://jamrizzi.com/");
+  $license_uri = input("License URI", "http://www.gnu.org/licenses/gpl-3.0.html");
+  $donate_link = input("Donate Link", "https://jamrizzi.com/#!/buy-me-coffee");
   name_plugin($plugin_name);
   find_and_replace_all("Jam Risser", $author);
   find_and_replace_all("jamrizzi", $contributors);
@@ -40,6 +40,15 @@ function init() {
   find_and_replace_all("https://jamrizzi.com/", $author_uri);
   find_and_replace_all("http://www.gnu.org/licenses/gpl-3.0.html", $license_uri);
   find_and_replace_all("https://jamrizzi.com/#!/buy-me-coffee", $donate_link);
+}
+
+function input($tag, $default) {
+  $value = read_ln($tab." (".$default."): ");
+  if (strlen($value) > 0) {
+    return $value;
+  } else {
+    return $default;
+  }
 }
 
 function name_plugin($name) {
