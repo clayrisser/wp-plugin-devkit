@@ -26,14 +26,14 @@ function name_plugin($name) {
   $cap_snake = change_case($name, "cap_snake");
   $cap_kebab = change_case($name, "cap_kebab");
   $cap_space = change_case($name, "cap_space");
-  // find_and_replace_all('plugin_name', $snake);
-  // find_and_replace_all('plugin-name', $kebab);
-  // find_and_replace_all('plugin name', $space);
-  // find_and_replace_all('Plugin_Name', $cap_snake);
-  // find_and_replace_all('Plugin-Name', $cap_kebab);
-  // find_and_replace_all('Plugin Name', $cap_space);
+  find_and_replace_all('plugin_name', $snake);
+  find_and_replace_all('plugin-name', $kebab);
+  find_and_replace_all('plugin name', $space);
+  find_and_replace_all('Plugin_Name', $cap_snake);
+  find_and_replace_all('Plugin-Name', $cap_kebab);
+  find_and_replace_all('Plugin Name', $cap_space);
   find_and_replace_files('plugin_name', $snake);
-  find_and_replace_files('plugin-name', $kebab, $kebab);
+  find_and_replace_files('plugin-name', $kebab);
   find_and_replace_files('Plugin_Name', $cap_snake, $kebab);
   find_and_replace_files('Plugin-Name', $cap_kebab, $kebab);
 }
