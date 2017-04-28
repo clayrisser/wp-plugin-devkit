@@ -32,6 +32,10 @@ function name_plugin($name) {
   find_and_replace_all('Plugin_Name', $cap_snake);
   find_and_replace_all('Plugin-Name', $cap_kebab);
   find_and_replace_all('Plugin Name', $cap_space);
+  find_and_replace_files('plugin_name', $snake);
+  find_and_replace_files('plugin-name', $kebab);
+  find_and_replace_files('Plugin_Name', $cap_snake);
+  find_and_replace_files('Plugin-Name', $cap_kebab);
 }
 
 function change_case($str, $to, $from = "title") {
@@ -77,14 +81,20 @@ function find_and_replace_all($find, $replace) {
   $files = recursively_get_files("./plugin-name");
   foreach($files as $path) {
     find_and_replace($path, $find, $replace);
-    if (strpos($path, $find)) {
-      rename($path, str_replace($find, $replace, $path));
-    }
   }
   find_and_replace(getcwd()."/Makefile", $find, $replace);
   find_and_replace(getcwd()."/composer.json", $find, $replace);
   find_and_replace(getcwd()."/README.md", $find, $replace);
   find_and_replace(getcwd()."/tools.php", $find, $replace);
+}
+
+function find_and_replace_files($find, $replace) {
+  $files = recursively_get_files("./plugin-name");
+  foreach($files as $path) {
+    if (strpos($path, $find)) {
+      rename($path, str_replace($find, $replace, $path));
+    }
+  }
 }
 
 function recursively_get_files($path) {
