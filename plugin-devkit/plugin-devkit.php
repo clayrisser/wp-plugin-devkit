@@ -30,6 +30,9 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+// Import vendor
+require_once __DIR__ . '/vendor/autoload.php';
+
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-plugin-devkit-activator.php
