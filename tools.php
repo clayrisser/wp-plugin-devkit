@@ -12,8 +12,8 @@ function main($argv) {
 }
 
 function init() {
-  $name = read_ln("Plugin Name: ");
-  $author = read_ln("Plugin Author: ");
+  $name = read_ln("Name of Plugin: ");
+  $author = read_ln("Author of Plugin: ");
   write_ln("The plugin is called ".$name);
   write_ln("Your name is ".$author);
   name_plugin($name);
@@ -97,17 +97,11 @@ function find_and_replace_files($find, $replace, $root = "plugin-name") {
         $to_find = $matches[0][0];
         $to_replace = str_replace($find, $replace, $to_find);
         $new_path = str_replace($to_find, $to_replace, $path);
-        write_ln('******************************');
-        write_ln($path);
-        write_ln($new_path);
         rename($path, $new_path);
       }
     }
   }
   if (file_exists(getcwd()."/".$find)) {
-    write_ln('-------------------------');
-    write_ln(getcwd()."/".$find);
-    write_ln(getcwd()."/".$replace);
     rename(getcwd()."/".$find, getcwd()."/".$replace);
   }
 }
