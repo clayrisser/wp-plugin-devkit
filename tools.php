@@ -26,10 +26,10 @@ function init() {
   $author_uri = input("Author URI", "https://jamrizzi.com/");
   $license_uri = input("License URI", "http://www.gnu.org/licenses/gpl-3.0.html");
   $donate_link = input("Donate Link", "https://jamrizzi.com/#!/buy-me-coffee");
-  find_and_replace_all("https://wordpress.org/plugins/plugin-devkit/", $plugin_uri);
-  find_and_replace_all("https://jamrizzi.com/", $author_uri);
   find_and_replace_all("http://www.gnu.org/licenses/gpl-3.0.html", $license_uri);
+  find_and_replace_all("https://wordpress.org/plugins/plugin-devkit/", $plugin_uri);
   find_and_replace_all("https://jamrizzi.com/#!/buy-me-coffee", $donate_link);
+  find_and_replace_all("https://jamrizzi.com/", $author_uri);
   find_and_replace_all("Jam Risser", $author);
   find_and_replace_all("comments, spam", $tags);
   find_and_replace_all("This is a short description of what the plugin does. It's displayed in the WordPress admin area.", $description);
