@@ -2,8 +2,6 @@
 
 A modern way to develop WordPress plugins
 
-Loosely based on the [WordPress Plugin Boilerplate](https://github.com/DevinVinson/WordPress-Plugin-Boilerplate).
-
 Please &#9733; this repo if you found it useful &#9733; &#9733; &#9733;
 
 
@@ -100,6 +98,7 @@ A ridiculous amount of coffee was consumed in the process of building this proje
 <!------------------------------------------------------->
 
 * [Jam Risser](https://jamrizzi.com) - Author
+* Loosely based on the [WordPress Plugin Boilerplate](https://github.com/DevinVinson/WordPress-Plugin-Boilerplate)
 
 
 ## Changelog
