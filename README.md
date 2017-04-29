@@ -49,6 +49,7 @@ make start
 [phpMyAdmin](https://www.phpmyadmin.net/) located at [http://localhost:8889](http://localhost:8889)
 
 Default Username: _admin_
+
 Default Password: _hellowordpress_
 
 ### Make Commands
