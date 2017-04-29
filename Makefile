@@ -37,7 +37,7 @@ stop:
 
 .PHONY: ssh
 ssh:
-	dockssh -e some-instant-wordpress
+	docker exec -it some-instant-wordpress /bin/bash
 
 .PHONY: fetch_dependancies
 fetch_dependancies: docker
