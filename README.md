@@ -8,7 +8,7 @@ Please &#9733; this repo if you found it useful &#9733; &#9733; &#9733;
 ## Features
 <!------------------------------------------------------->
 
-* Namespace and initialize your plugin with a simple wizard (No more find and replace all)
+* Namespace and initialize your plugin with a simple wizard (no more find and replace all)!!!
 * Test plugin in an automatically generated [WordPress](https://wordpress.org/) environment
 * View database in an automatically generated [phpMyAdmin](https://www.phpmyadmin.net/) environment
 * SSH into WordPress container
