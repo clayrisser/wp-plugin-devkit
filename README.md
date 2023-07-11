@@ -2,6 +2,7 @@
 
 A modern way to develop WordPress plugins
 
+![](assets/wp-plugin-devkit.png)
 Please &#9733; this repo if you found it useful &#9733; &#9733; &#9733;
 
 
