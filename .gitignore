@@ -1,49 +1,17 @@
-# Numerous always-ignore extensions
-*.diff
-*.err
-*.orig
-*.log
-*.rej
-*.swo
-*.swp
-*.vi
-*~
-*.sass-cache
-
-# OS or Editor folders
+# OS or editor files
 .DS_Store
 Thumbs.db
-.cache
-.project
-.settings
-.tmproj
-*.esproj
-nbproject
-*.sublime-project
-*.sublime-workspace
-
-# Dreamweaver added files
-_notes
-dwsync.xml
-
-# Komodo
-*.komodoproject
-.komodotools
-
-# Folders to ignore
-.hg
-.svn
-.CVS
-intermediate
 .idea
-cache
-
-# Emacs
-\#*\#
-.\#*
+*.swo
+*.swp
 *~
 
 # Composer
-plugin-devkit/composer.phar
-plugin-devkit/composer.lock
 plugin-devkit/vendor/
+
+# Make state
+.make/
+
+# Environment
+.env
+.env.bak
