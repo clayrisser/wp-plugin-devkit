@@ -1,185 +1,270 @@
 <?php
+/**
+ * Plugin Devkit tooling
+ *
+ * A standalone CLI wizard that initializes a new plugin from this devkit by
+ * renaming the plugin and replacing all of the template placeholders.
+ *
+ * Usage: php tools.php init
+ *
+ * @package Plugin_Devkit
+ */
 
-function main($argv) {
-  $command = $argv[count($argv) - 1];
-  switch($command) {
-  case 'init':
-    init();
-    break;
-  default:
-    write_ln('Invalid command', 1);
-  }
+// phpcs:disable WordPress.WP.AlternativeFunctions, WordPress.Security.EscapeOutput -- Standalone CLI wizard: WordPress is not loaded, so the WP_Filesystem, wp_json_encode and escaping APIs are unavailable, and all output goes to a terminal.
+
+/**
+ * Entrypoint of the CLI wizard.
+ *
+ * @param array $argv Command line arguments.
+ */
+function main( $argv ) {
+	$command = $argv[ count( $argv ) - 1 ];
+	switch ( $command ) {
+		case 'init':
+			init();
+			break;
+		default:
+			write_ln( 'Invalid command', 1 );
+	}
 }
 
+/**
+ * Interactively collect plugin metadata and apply it to the project.
+ */
 function init() {
-  $plugin_name = input('Plugin Name', 'Plugin Devkit');
-  $author = input('Plugin Author', 'Jam Risser');
-  $contributors = input('Contributors', 'jamrizzi');
-  $tags = input('Tags', 'comments, spam');
-  $description = input('Description', 'This is a short description of what the plugin does. It\'s displayed in the WordPress admin area.');
-  $version = input('Version', '0.0.1');
-  $requires = input('Requires', '3.0.1');
-  $tested = input('Tested', '3.4');
-  $stable = input('Stable', '4.3');
-  $license = input('License', 'GPL-3.0+');
-  $plugin_uri = input('Plugin URI', 'https://wordpress.org/plugins/plugin-devkit/');
-  $author_uri = input('Author URI', 'https://jamrizzi.com/');
-  $license_uri = input('License URI', 'http://www.gnu.org/licenses/gpl-3.0.html');
-  $donate_link = input('Donate Link', 'https://jamrizzi.com/#!/buy-me-coffee');
-  find_and_replace_all('http://www.gnu.org/licenses/gpl-3.0.html', $license_uri);
-  find_and_replace_all('https://wordpress.org/plugins/plugin-devkit/', $plugin_uri);
-  find_and_replace_all('https://jamrizzi.com/#!/buy-me-coffee', $donate_link);
-  find_and_replace_all('https://jamrizzi.com/', $author_uri);
-  find_and_replace_all('Jam Risser', $author);
-  find_and_replace_all('comments, spam', $tags);
-  find_and_replace_all('This is a short description of what the plugin does. It\'s displayed in the WordPress admin area.', $description);
-  find_and_replace_all('0.0.1', $version);
-  find_and_replace_all('3.0.1', $requires);
-  find_and_replace_all('3.4', $tested);
-  find_and_replace_all('4.3', $stable);
-  find_and_replace_all('jamrizzi', $contributors);
-  find_and_replace_all('GPL-3.0+', $license);
-  name_plugin($plugin_name);
+	$plugin_name  = input( 'Plugin Name', 'Plugin Devkit' );
+	$author       = input( 'Plugin Author', 'Clay Risser' );
+	$contributors = input( 'Contributors', 'clayrisser' );
+	$tags         = input( 'Tags', 'comments, spam' );
+	$description  = input( 'Description', 'This is a short description of what the plugin does. It\'s displayed in the WordPress admin area.' );
+	$version      = input( 'Version', '0.0.1' );
+	$requires     = input( 'Requires at least (WordPress)', '6.4' );
+	$tested       = input( 'Tested up to (WordPress)', '7.0' );
+	$requires_php = input( 'Requires PHP', '8.1' );
+	$license      = input( 'License', 'GPL-3.0-or-later' );
+	$plugin_uri   = input( 'Plugin URI', 'https://wordpress.org/plugins/plugin-devkit/' );
+	$author_uri   = input( 'Author URI', 'https://clayrisser.com/' );
+	$license_uri  = input( 'License URI', 'https://www.gnu.org/licenses/gpl-3.0.html' );
+	$donate_link  = input( 'Donate Link', 'https://clayrisser.com/donate' );
+	find_and_replace_all( 'https://www.gnu.org/licenses/gpl-3.0.html', $license_uri );
+	find_and_replace_all( 'https://wordpress.org/plugins/plugin-devkit/', $plugin_uri );
+	find_and_replace_all( 'https://clayrisser.com/donate', $donate_link );
+	find_and_replace_all( 'https://clayrisser.com/', $author_uri );
+	find_and_replace_all( 'Clay Risser', $author );
+	find_and_replace_all( 'comments, spam', $tags );
+	find_and_replace_all( 'This is a short description of what the plugin does. It\'s displayed in the WordPress admin area.', $description );
+	find_and_replace_all( '0.0.1', $version );
+	find_and_replace_all( '6.4', $requires );
+	find_and_replace_all( '7.0', $tested );
+	find_and_replace_all( '8.1', $requires_php );
+	find_and_replace_all( 'clayrisser', $contributors );
+	find_and_replace_all( 'GPL-3.0-or-later', $license );
+	name_plugin( $plugin_name );
 }
 
-function input($tag, $default) {
-  $value = read_ln($tag.' ('.$default.'): ');
-  if ($value === 'exit') {
-    return exit(0);
-  }
-  if (strlen($value) > 0) {
-    return $value;
-  } else {
-    return $default;
-  }
+/**
+ * Prompt for a value, falling back to a default on empty input or EOF.
+ *
+ * @param string $tag      Prompt label.
+ * @param string $fallback Default value when the user just presses enter.
+ * @return string The value entered by the user, or the default.
+ */
+function input( $tag, $fallback ) {
+	$value = read_ln( $tag . ' (' . $fallback . '): ' );
+	if ( 'exit' === $value ) {
+		exit( 0 );
+	}
+	return ( '' === $value ) ? $fallback : $value;
 }
 
-function name_plugin($name) {
-  $snake = change_case($name, 'snake');
-  $kebab = change_case($name, 'kebab');
-  $space = change_case($name, 'space');
-  $cap_snake = change_case($name, 'cap_snake');
-  $cap_kebab = change_case($name, 'cap_kebab');
-  $cap_space = change_case($name, 'cap_space');
-  find_and_replace_all('plugin_devkit', $snake);
-  find_and_replace_all('plugin-devkit', $kebab);
-  find_and_replace_all('plugin devkit', $space);
-  find_and_replace_all('Plugin_Devkit', $cap_snake);
-  find_and_replace_all('Plugin-Devkit', $cap_kebab);
-  find_and_replace_all('Plugin Devkit', $cap_space);
-  find_and_replace_files('plugin_devkit', $snake);
-  find_and_replace_files('plugin-devkit', $kebab);
-  find_and_replace_files('Plugin_Devkit', $cap_snake, $kebab);
-  find_and_replace_files('Plugin-Devkit', $cap_kebab, $kebab);
+/**
+ * Rename the plugin across file contents, file names and the plugin directory.
+ *
+ * @param string $name The new plugin name, in title case (e.g. "My Cool Plugin").
+ */
+function name_plugin( $name ) {
+	$snake     = change_case( $name, 'snake' );
+	$kebab     = change_case( $name, 'kebab' );
+	$space     = change_case( $name, 'space' );
+	$cap_snake = change_case( $name, 'cap_snake' );
+	$cap_kebab = change_case( $name, 'cap_kebab' );
+	$cap_space = change_case( $name, 'cap_space' );
+	find_and_replace_all( 'plugin_devkit', $snake );
+	find_and_replace_all( 'plugin-devkit', $kebab );
+	find_and_replace_all( 'plugin devkit', $space );
+	find_and_replace_all( 'Plugin_Devkit', $cap_snake );
+	find_and_replace_all( 'Plugin-Devkit', $cap_kebab );
+	find_and_replace_all( 'Plugin Devkit', $cap_space );
+	find_and_replace_files( 'plugin_devkit', $snake );
+	find_and_replace_files( 'plugin-devkit', $kebab );
+	find_and_replace_files( 'Plugin_Devkit', $cap_snake, $kebab );
+	find_and_replace_files( 'Plugin-Devkit', $cap_kebab, $kebab );
 }
 
-function change_case($str, $to, $from = 'title') {
-  $str = trim(preg_replace('/[\s\t\n\r\s]+/', ' ', $str));
-  if ($from == 'title') {
-    switch($to) {
-    case 'snake':
-      preg_match_all('/(?<=\s)\w/', $str, $firstChars);
-      preg_match_all('/\s\w/', $str, $matches);
-      for($i = 0; $i < count($matches[0]); $i++) {
-        $match = $matches[0][$i];
-        $firstChar = '_'.strtolower($firstChars[0][$i]);
-        $str = str_replace($match, $firstChar, $str);
-      }
-      $str = strtolower($str);
-      break;
-    case 'kebab':
-      $str = change_case($str, 'snake');
-      $str = str_replace('_', '-', $str);
-      break;
-    case 'space':
-      $str = change_case($str, 'snake');
-      $str = str_replace('_', ' ', $str);
-      break;
-    case 'cap_snake':
-      $str = change_case($str, 'cap_space');
-      $str = str_replace(' ', '_', $str);
-      break;
-    case 'cap_kebab':
-      $str = change_case($str, 'cap_space');
-      $str = str_replace(' ', '-', $str);
-      break;
-    case 'cap_space':
-      $str = change_case($str, 'space');
-      $str = ucwords($str);
-      break;
-    }
-  }
-  return $str;
+/**
+ * Convert a title-case string to another case style.
+ *
+ * @param string $str  The string to convert.
+ * @param string $to   Target case: snake, kebab, space, cap_snake, cap_kebab or cap_space.
+ * @param string $from Source case (only title is supported).
+ * @return string The converted string.
+ */
+function change_case( $str, $to, $from = 'title' ) {
+	$str = trim( preg_replace( '/[\s\t\n\r\s]+/', ' ', $str ) );
+	if ( 'title' === $from ) {
+		switch ( $to ) {
+			case 'snake':
+				$str = strtolower( str_replace( ' ', '_', $str ) );
+				break;
+			case 'kebab':
+				$str = str_replace( '_', '-', change_case( $str, 'snake' ) );
+				break;
+			case 'space':
+				$str = str_replace( '_', ' ', change_case( $str, 'snake' ) );
+				break;
+			case 'cap_snake':
+				$str = str_replace( ' ', '_', change_case( $str, 'cap_space' ) );
+				break;
+			case 'cap_kebab':
+				$str = str_replace( ' ', '-', change_case( $str, 'cap_space' ) );
+				break;
+			case 'cap_space':
+				$str = ucwords( change_case( $str, 'space' ) );
+				break;
+		}
+	}
+	return $str;
 }
 
-function find_and_replace_all($find, $replace) {
-  $files = recursively_get_files('./plugin-devkit');
-  foreach($files as $path) {
-    find_and_replace($path, $find, $replace);
-  }
-  find_and_replace(getcwd().'/Makefile', $find, $replace);
-  find_and_replace(getcwd().'/composer.json', $find, $replace);
-  find_and_replace(getcwd().'/README.md', $find, $replace);
-  find_and_replace(getcwd().'/tools.php', $find, $replace);
-  find_and_replace(getcwd().'/.gitignore', $find, $replace);
+/**
+ * Replace a string in the contents of every project file.
+ *
+ * @param string $find    The string to search for.
+ * @param string $replace The replacement string.
+ */
+function find_and_replace_all( $find, $replace ) {
+	if ( $find === $replace ) {
+		return;
+	}
+	foreach ( project_files( '.' ) as $path ) {
+		find_and_replace( $path, $find, $replace );
+	}
 }
 
-function find_and_replace_files($find, $replace, $root = 'plugin-devkit') {
-  $files = recursively_get_files('./'.$root);
-  foreach($files as $path) {
-    if (strpos($path, $find)) {
-      preg_match_all('/\/[\w\d-_\.]+$/', $path, $matches);
-      if (count($matches[0]) > 0) {
-        $to_find = $matches[0][0];
-        $to_replace = str_replace($find, $replace, $to_find);
-        $new_path = str_replace($to_find, $to_replace, $path);
-        rename($path, $new_path);
-      }
-    }
-  }
-  if (file_exists(getcwd().'/'.$find)) {
-    rename(getcwd().'/'.$find, getcwd().'/'.$replace);
-  }
+/**
+ * Rename files (and finally the root directory) whose name contains a string.
+ *
+ * @param string $find    The string to search for in file names.
+ * @param string $replace The replacement string.
+ * @param string $root    The directory to search, relative to the project root.
+ */
+function find_and_replace_files( $find, $replace, $root = 'plugin-devkit' ) {
+	if ( $find !== $replace ) {
+		foreach ( project_files( './' . $root ) as $path ) {
+			$basename = basename( $path );
+			if ( str_contains( $basename, $find ) ) {
+				rename( $path, dirname( $path ) . '/' . str_replace( $find, $replace, $basename ) );
+			}
+		}
+		if ( file_exists( getcwd() . '/' . $find ) ) {
+			rename( getcwd() . '/' . $find, getcwd() . '/' . $replace );
+		}
+	}
 }
 
-function recursively_get_files($path) {
-  $directory_iterator = new RecursiveDirectoryIterator($path);
-  $iterator_iterator  = new RecursiveIteratorIterator($directory_iterator, RecursiveIteratorIterator::SELF_FIRST);
-  $files = array();
-  foreach ($iterator_iterator as $file) {
-    $path = $file->getRealPath();
-    if ($file->isFile()) {
-      array_push($files, $path);
-    }
-  }
-  return $files;
+/**
+ * Recursively list the project files the wizard is allowed to rewrite.
+ *
+ * Skips VCS internals, dependency and state directories, binary assets, and
+ * files whose contents must never be templated (LICENSE, composer.lock).
+ *
+ * @param string $root The directory to walk.
+ * @return array Absolute paths of matching files.
+ */
+function project_files( $root ) {
+	$skip_dirs       = array( '.git', '.make', 'vendor', 'node_modules', 'assets' );
+	$skip_files      = array( 'LICENSE', 'composer.lock' );
+	$skip_extensions = array( 'png', 'jpg', 'jpeg', 'gif', 'ico' );
+	$directory       = new RecursiveDirectoryIterator( $root, RecursiveDirectoryIterator::SKIP_DOTS );
+	$filter          = new RecursiveCallbackFilterIterator(
+		$directory,
+		function ( $file ) use ( $skip_dirs, $skip_files, $skip_extensions ) {
+			if ( $file->isDir() ) {
+				return ! in_array( $file->getFilename(), $skip_dirs, true );
+			}
+			if ( in_array( $file->getFilename(), $skip_files, true ) ) {
+				return false;
+			}
+			return ! in_array( strtolower( $file->getExtension() ), $skip_extensions, true );
+		}
+	);
+	$files           = array();
+	foreach ( new RecursiveIteratorIterator( $filter ) as $file ) {
+		if ( $file->isFile() ) {
+			$files[] = $file->getRealPath();
+		}
+	}
+	return $files;
 }
 
-function find_and_replace($path, $find, $replace) {
-  $file = file_get_contents($path);
-  $file = str_replace($find, $replace, $file);
-  file_put_contents($path, $file);
+/**
+ * Replace a string in the contents of a single file.
+ *
+ * @param string $path    Path of the file to rewrite.
+ * @param string $find    The string to search for.
+ * @param string $replace The replacement string.
+ */
+function find_and_replace( $path, $find, $replace ) {
+	$contents = file_get_contents( $path );
+	if ( false === $contents || ! str_contains( $contents, $find ) ) {
+		return;
+	}
+	file_put_contents( $path, str_replace( $find, $replace, $contents ) );
 }
 
-function write($message, $code = 0) {
-  switch($code) {
-  case 0:
-    fwrite(STDOUT, $message);
-    return $code;
-  default:
-    fwrite(STDERR, $message);
-    return exit($code);
-  }
+/**
+ * Write a message to stdout, or to stderr when a non-zero code is given.
+ *
+ * @param string $message The message to write.
+ * @param int    $code    Exit code; non-zero writes to stderr and exits.
+ * @return int The exit code.
+ */
+function write( $message, $code = 0 ) {
+	if ( 0 === $code ) {
+		fwrite( STDOUT, $message );
+		return $code;
+	}
+	fwrite( STDERR, $message );
+	exit( $code );
 }
 
-function write_ln($message, $code = 0) {
-  return write($message."\n", $code);
+/**
+ * Write a message followed by a newline.
+ *
+ * @param string $message The message to write.
+ * @param int    $code    Exit code; non-zero writes to stderr and exits.
+ * @return int The exit code.
+ */
+function write_ln( $message, $code = 0 ) {
+	return write( $message . "\n", $code );
 }
 
-function read_ln($message) {
-  if ($message) write($message);
-  $stdin = fgets(STDIN);
-  return substr($stdin, 0, strlen($stdin) - 1);
+/**
+ * Read a line from stdin, returning an empty string on EOF.
+ *
+ * @param string $message Optional prompt to print first.
+ * @return string The line read, without the trailing newline.
+ */
+function read_ln( $message ) {
+	if ( $message ) {
+		write( $message );
+	}
+	$stdin = fgets( STDIN );
+	if ( false === $stdin ) {
+		write( "\n" );
+		return '';
+	}
+	return rtrim( $stdin, "\r\n" );
 }
 
-main($argv);
+main( $argv );
