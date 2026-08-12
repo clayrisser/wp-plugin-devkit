@@ -1,15 +1,31 @@
 {
-  "name": "jamrizzi/plugin-devkit",
-  "description": "A WordPress plugin development kit",
-  "license": "GPLv3",
+  "name": "clayrisser/plugin-devkit",
+  "description": "This is a short description of what the plugin does. It's displayed in the WordPress admin area.",
+  "license": "GPL-3.0-or-later",
   "authors": [
     {
-      "name": "Jam Risser",
-      "email": "jam@jamrizzi.com"
+      "name": "Clay Risser",
+      "email": "clayrisser@gmail.com"
     }
   ],
-  "require": {},
+  "require": {
+    "php": ">=8.1"
+  },
+  "require-dev": {
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+    "phpcompatibility/phpcompatibility-wp": "^2.1",
+    "squizlabs/php_codesniffer": "^3.13",
+    "wp-coding-standards/wpcs": "^3.1"
+  },
   "config": {
-    "vendor-dir": "plugin-devkit/vendor"
+    "vendor-dir": "plugin-devkit/vendor",
+    "sort-packages": true,
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  },
+  "scripts": {
+    "lint": "phpcs",
+    "format": "phpcbf"
   }
 }
