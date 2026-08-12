@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The file that defines the core plugin class
  *
@@ -69,13 +68,12 @@ class Plugin_Devkit {
 	public function __construct() {
 
 		$this->plugin_name = 'plugin-devkit';
-		$this->version = '0.0.1';
+		$this->version     = '0.0.1';
 
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-
 	}
 
 	/**
@@ -84,7 +82,7 @@ class Plugin_Devkit {
 	 * Include the following files that make up the plugin:
 	 *
 	 * - Plugin_Devkit_Loader. Orchestrates the hooks of the plugin.
-	 * - Plugin_Devkit_i18n. Defines internationalization functionality.
+	 * - Plugin_Devkit_I18n. Defines internationalization functionality.
 	 * - Plugin_Devkit_Admin. Defines all hooks for the admin area.
 	 * - Plugin_Devkit_Public. Defines all hooks for the public side of the site.
 	 *
@@ -100,44 +98,43 @@ class Plugin_Devkit {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-plugin-devkit-loader.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-plugin-devkit-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-plugin-devkit-i18n.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-plugin-devkit-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-plugin-devkit-admin.php';
+		require_once plugin_dir_path( __DIR__ ) . 'admin/class-plugin-devkit-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-plugin-devkit-public.php';
+		require_once plugin_dir_path( __DIR__ ) . 'public/class-plugin-devkit-public.php';
 
 		$this->loader = new Plugin_Devkit_Loader();
-
 	}
 
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
-	 * Uses the Plugin_Devkit_i18n class in order to set the domain and to register the hook
-	 * with WordPress.
+	 * Uses the Plugin_Devkit_I18n class in order to set the domain and to register the hook
+	 * with WordPress. Hooked on init because WordPress 6.7+ warns when translations
+	 * load any earlier.
 	 *
 	 * @since    0.0.1
 	 * @access   private
 	 */
 	private function set_locale() {
 
-		$plugin_i18n = new Plugin_Devkit_i18n();
+		$plugin_i18n = new Plugin_Devkit_I18n();
 
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-
+		$this->loader->add_action( 'init', $plugin_i18n, 'load_plugin_textdomain' );
 	}
 
 	/**
@@ -153,9 +150,8 @@ class Plugin_Devkit {
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-    $this->loader->add_action( 'admin_menu', $plugin_admin, 'add_options_page' );
-    $this->loader->add_action( 'admin_init', $plugin_admin, 'register_settings' );
-
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'add_options_page' );
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'register_settings' );
 	}
 
 	/**
@@ -171,7 +167,6 @@ class Plugin_Devkit {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-
 	}
 
 	/**
@@ -213,5 +208,4 @@ class Plugin_Devkit {
 	public function get_version() {
 		return $this->version;
 	}
-
 }

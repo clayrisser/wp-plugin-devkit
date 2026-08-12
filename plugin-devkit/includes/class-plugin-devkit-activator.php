@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Fired during plugin activation
  *
@@ -30,7 +29,5 @@ class Plugin_Devkit_Activator {
 	 * @since    0.0.1
 	 */
 	public static function activate() {
-
 	}
-
 }
