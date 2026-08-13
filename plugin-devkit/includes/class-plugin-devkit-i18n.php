@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Define the internationalization functionality
  *
@@ -24,7 +23,7 @@
  * @subpackage Plugin_Devkit/includes
  * @author     Your Name <email@example.com>
  */
-class Plugin_Devkit_i18n {
+class Plugin_Devkit_I18n {
 
 
 	/**
@@ -37,11 +36,7 @@ class Plugin_Devkit_i18n {
 		load_plugin_textdomain(
 			'plugin-devkit',
 			false,
-			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
+			dirname( plugin_basename( __FILE__ ), 2 ) . '/languages/'
 		);
-
 	}
-
-
-
 }

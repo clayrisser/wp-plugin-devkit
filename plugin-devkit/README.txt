@@ -1,12 +1,13 @@
 === Plugin Devkit ===
-Contributors: jamrizzi
-Donate link: https://jamrizzi.com/#!/buy-me-coffee
+Contributors: clayrisser
+Donate link: https://clayrisser.com/donate
 Tags: comments, spam
-Requires at least: 3.0.1
-Tested up to: 3.4
-Stable tag: 4.3
-License: GPL-3.0+
-License URI: http://www.gnu.org/licenses/gpl-3.0.html
+Requires at least: 6.4
+Tested up to: 7.0
+Requires PHP: 8.1
+Stable tag: 0.0.1
+License: GPL-3.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Here is a short description of the plugin.  This should be no more than 150 characters.  No markup here.
 

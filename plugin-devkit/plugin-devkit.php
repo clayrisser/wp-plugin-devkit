@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The plugin bootstrap file
  *
@@ -8,7 +7,7 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              https://jamrizzi.com/
+ * @link              https://clayrisser.com/
  * @since             0.0.1
  * @package           Plugin_Devkit
  *
@@ -17,10 +16,12 @@
  * Plugin URI:        https://wordpress.org/plugins/plugin-devkit/
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
  * Version:           0.0.1
- * Author:            Jam Risser
- * Author URI:        https://jamrizzi.com/
- * License:           GPL-3.0+
- * License URI:       http://www.gnu.org/licenses/gpl-3.0.html
+ * Requires at least: 6.4
+ * Requires PHP:      8.1
+ * Author:            Clay Risser
+ * Author URI:        https://clayrisser.com/
+ * License:           GPL-3.0-or-later
+ * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain:       plugin-devkit
  * Domain Path:       /languages
  */
@@ -30,14 +31,16 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-// Import vendor
-require_once __DIR__ . '/vendor/autoload.php';
+// Load the composer autoloader when dependencies have been installed.
+if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+	require_once __DIR__ . '/vendor/autoload.php';
+}
 
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-plugin-devkit-activator.php
  */
-function activate_plugin_devkit() {
+function plugin_devkit_activate() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-plugin-devkit-activator.php';
 	Plugin_Devkit_Activator::activate();
 }
@@ -46,13 +49,13 @@ function activate_plugin_devkit() {
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-plugin-devkit-deactivator.php
  */
-function deactivate_plugin_devkit() {
+function plugin_devkit_deactivate() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-plugin-devkit-deactivator.php';
 	Plugin_Devkit_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_plugin_devkit' );
-register_deactivation_hook( __FILE__, 'deactivate_plugin_devkit' );
+register_activation_hook( __FILE__, 'plugin_devkit_activate' );
+register_deactivation_hook( __FILE__, 'plugin_devkit_deactivate' );
 
 /**
  * The core plugin class that is used to define internationalization,
@@ -69,10 +72,9 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-plugin-devkit.php';
  *
  * @since    0.0.1
  */
-function run_plugin_devkit() {
+function plugin_devkit_run() {
 
 	$plugin = new Plugin_Devkit();
 	$plugin->run();
-
 }
-run_plugin_devkit();
+plugin_devkit_run();

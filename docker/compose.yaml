@@ -1,0 +1,74 @@
+name: wp-plugin-devkit
+
+services:
+  database:
+    image: mariadb:11
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-wordpress}
+      MARIADB_DATABASE: ${DB_NAME:-wordpress}
+      MARIADB_USER: ${DB_USER:-wordpress}
+      MARIADB_PASSWORD: ${DB_PASSWORD:-wordpress}
+    volumes:
+      - database_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 24
+
+  wordpress:
+    image: wordpress:${WORDPRESS_VERSION:-latest}
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - "${WORDPRESS_PORT:-8888}:80"
+    environment:
+      WORDPRESS_DB_HOST: database
+      WORDPRESS_DB_NAME: ${DB_NAME:-wordpress}
+      WORDPRESS_DB_USER: ${DB_USER:-wordpress}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD:-wordpress}
+      WORDPRESS_DEBUG: "1"
+    volumes:
+      - wordpress_data:/var/www/html
+      - ../plugin-devkit:/var/www/html/wp-content/plugins/plugin-devkit
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fso /dev/null http://localhost/wp-login.php"]
+      interval: 5s
+      timeout: 5s
+      retries: 24
+
+  # One-shot wp-cli runner: `docker compose run --rm wpcli wp <command>`.
+  # Runs as www-data (33) so files it creates match the wordpress service.
+  wpcli:
+    image: wordpress:cli
+    profiles: [cli]
+    user: "33:33"
+    depends_on:
+      database:
+        condition: service_healthy
+      wordpress:
+        condition: service_healthy
+    environment:
+      WORDPRESS_DB_HOST: database
+      WORDPRESS_DB_NAME: ${DB_NAME:-wordpress}
+      WORDPRESS_DB_USER: ${DB_USER:-wordpress}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD:-wordpress}
+    volumes:
+      - wordpress_data:/var/www/html
+      - ../plugin-devkit:/var/www/html/wp-content/plugins/plugin-devkit
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    profiles: [dev]
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - "${PHPMYADMIN_PORT:-8889}:80"
+    environment:
+      PMA_HOST: database
+
+volumes:
+  database_data:
+  wordpress_data:
